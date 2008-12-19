@@ -1,0 +1,14 @@
+.DEPENDS
+caget
+caput
+caGet
+caPut
+caInfo
+caInfo1
+libLca.a
+in1
+out1
+n.*
+o.*
+test*
+core

@@ -1,0 +1,10 @@
+Mon Sep  9 10:14:39 CDT 2002
+  Removed calls to ca_task_exit because it should not be 
+  called unless ca_clear_channel is called for all channels first.	
+
+Tue Sep 10 11:06:22 CDT 2002
+  Created 20020910 tar file.
+
+Fri May 25 14:03:10 CDT 2007
+  Converted to R3.14. Makefiles
+
