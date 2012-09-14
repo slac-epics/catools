@@ -16,8 +16,7 @@
 
 extern chandata *pchandata;
 
-struct stat buf;
-FILE *fr,*fw;
+FILE *fw;
 char *str;
 int *off_loc;
 chid *pchid;
@@ -33,7 +32,7 @@ float list_io_time=10.;
 extern char *optarg;
 extern int optind;
 
-void main(argc,argv)
+int main(argc,argv)
 int argc;
 char **argv;
 {

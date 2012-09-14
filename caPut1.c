@@ -18,9 +18,8 @@
 #include "chandata.h"
 
 
-struct stat buf;
+static struct stat buf;
 extern chandata *pchandata;
-FILE *fr,*fw;
 char *str;
 int *off_loc, *value_loc;
 chid *pchid;
@@ -39,7 +38,7 @@ extern int getopt();
 extern int fileno();
 extern ssize_t read();
 
-void main(argc,argv)
+int main(argc,argv)
 int argc;
 char **argv;
 {
@@ -162,6 +161,7 @@ int *noName;
 {
 char *ptr;
 int l,i,fd;
+FILE *fr;
 
 if ((fr = fopen(filename,"r")) == NULL ) {
         printf("Error: caPut failed to open the input file  '%s'\n",filename);

@@ -7,7 +7,7 @@
 # in the file LICENSE that is included with this distribution. 
 #*************************************************************************
 #
-# $Id: Makefile,v 1.1.1.1 2008/12/19 19:04:55 ernesto Exp $
+# Makefile,v 1.16 2012/08/15 19:56:48 jba Exp
 #
 TOP = ../..
 include $(TOP)/configure/CONFIG
@@ -18,8 +18,8 @@ HOST_OPT=
 
 INC = chandata.h
 
-USR_CFLAGS += -I$(EPICS_EXTENSIONS_INCLUDE) \
-             -DACCESS_SECURITY -D_NO_PROTO -DUSE_EZCA
+#USR_CFLAGS += -I$(EPICS_EXTENSIONS_INCLUDE)
+USR_CFLAGS += -DACCESS_SECURITY -D_NO_PROTO -DUSE_EZCA
 
 LIBSRCS := \
 	hash3.c cafunc.c caevent.c caQueue.c caScan.c caWF.c \
@@ -27,7 +27,15 @@ LIBSRCS := \
 
 LIBRARY_HOST := Lca
 
+
+ifdef BASE_3_15
+Lca_LIBS = ezca dbCore ca Com
+PROD_LIBS = Lca ezca dbCore ca Com
+else
+Lca_LIBS = ezca dbStaticHost ca Com
 PROD_LIBS = Lca ezca dbStaticHost ca Com
+endif
+
 dbStaticHost_DIR = $(EPICS_BASE_LIB)
 ezca_DIR = $(INSTALL_LIB)
 Lca_DIR = . 

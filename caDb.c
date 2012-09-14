@@ -29,6 +29,7 @@
 #include        "cvtFast.h" 
 #include        "dbStaticLib.h"
 #include        "epicsVersion.h"
+#include        "errlog.h"
 
 #define 	MAX_NUM_FIELD 	50
 

@@ -8,3 +8,8 @@ Tue Sep 10 11:06:22 CDT 2002
 Fri May 25 14:03:10 CDT 2007
   Converted to R3.14. Makefiles
 
+Tue Aug 14 16:37:30 CDT 2012
+  Converted from tsDefs API to epicsTime API
+  Changed base library dbStaticHost name to dbCore 
+  for builds with base R3.15.0.1 and later.
+  Changed void main() to int main().
