@@ -19,7 +19,6 @@
 #include <shareLib.h>
 
 #include "chandata.h"
-#include "tsDefs.h"
 
 void *pfdctx;   /*caddr_t pfdctx;  fdmgr context */
 
@@ -44,16 +43,16 @@ extern double atof();
 double iocClockTime(stamp)
 TS_STAMP *stamp;
 {
-char nowText[33];
+char nowText[28];
 double time;
 
 	if ((stamp->nsec + stamp->secPastEpoch) == 0 ) 
-		tsLocalTime(stamp);
+		epicsTimeGetCurrent(stamp);
 		
 	time = 0.001 * (stamp->nsec / 1000000) + stamp->secPastEpoch;
 	if (CA.devprflag > 2) {
-		fprintf(stderr,"tsStampToText:%s",
-			tsStampToText(stamp,TS_TEXT_MMDDYY,nowText));
+		epicsTimeToStrftime(nowText,28,"%m/%d/%y %H:%M:%S.%09f",stamp);
+		fprintf(stderr,"epicsTimeToStrftime:%s", nowText);
 		fprintf(stderr," IOC time=%.3f sec\n", time);
 		}
 	

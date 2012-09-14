@@ -18,7 +18,7 @@ extern chandata *pchandata;
 void caGetInfo();
 extern int getopt();
 
-void main(argc,argv)
+int main(argc,argv)
 int argc;
 char **argv;
 {

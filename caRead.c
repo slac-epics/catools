@@ -17,7 +17,7 @@
 
 #include "chandata.h"
 
-struct stat buf;
+static struct stat buf;
 FILE *fr;
 /*
 char *readFile0();

@@ -17,8 +17,6 @@
 #define DB_TEXT_GLBLSOURCE
 #include "chandata.h"
 
-struct stat buf;
-FILE *fr,*fw;
 char *str;
 int *off_loc;
 char *value,**value_string;
@@ -34,7 +32,7 @@ void caGet_help();
 void caGet_output();
 void caGet_exit();
 
-void main(argc,argv)
+int main(argc,argv)
 int argc;
 char **argv;
 {
@@ -106,6 +104,7 @@ char *filename;
 int noName;
 {
 int i;
+FILE *fw;
 	if ((fw = fopen(filename,"w")) == NULL ) {
 	printf("Error: caGet failed to open the output file '%s'\n",filename);
 	caGet_exit(1);
