@@ -45,8 +45,12 @@ int i,l,c,i0;
 	for (i=i0;i<buf.st_size;i++) {
 		c = *(ptr+i);
 		if (c != 0) continue;
-		while(*(ptr+i+1) == ' ' || *(ptr+i+1) == '\t' || 
-			*(ptr+i+1) ==0 ) i++;
+		while(*(ptr+i+1) == ' ' || *(ptr+i+1) == '\t' || *(ptr+i+1) ==0 ) { 
+            i++;
+            // Fix bug where we were core dumping here in case ptr is memset to 0?
+            // This is a local patch; it is possible that caTools is no longer maintained by the collaboration
+            if(i >= buf.st_size) break;
+        }
 		l++; 
 		off_loc[l] = i+1; 
 		}
