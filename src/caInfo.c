@@ -18,14 +18,15 @@ extern chandata *pchandata;
 void caGetInfo();
 extern int getopt();
 
-int main(argc,argv)
-int argc;
-char **argv;
+int
+main(argc, argv)
+     int argc;
+     char **argv;
 {
-char *st,name[NAME_LENGTH];
-        st = name;
+    char *st, name[NAME_LENGTH];
+    st = name;
 
-printf("\nEnter PV_name or quit\n\n");
+    printf("\nEnter PV_name or quit\n\n");
 
 READPV:	printf("PV? : "); 
 	st = gets(name);
@@ -42,30 +43,34 @@ READPV:	printf("PV? : ");
 	goto READPV;
 }
 
-void caGetInfo(name) 
-char *name;
+void
+caGetInfo(name)
+     char *name;
 {
-struct dbr_ctrl_double dbr;
-int status;
+    struct dbr_ctrl_double dbr;
+    int status;
 
-   status = ca_find_dev(name,pchandata);
+    status = ca_find_dev(name, pchandata);
 
-        if (pchandata->state  != cs_conn ) return;
-        if (pchandata->type > DBR_STRING) {
-        status = ca_get(DBR_CTRL_DOUBLE,pchandata->chid,&dbr);
+    if (pchandata->state != cs_conn)
+        return;
+    if (pchandata->type > DBR_STRING)
+    {
+        status = ca_get(DBR_CTRL_DOUBLE, pchandata->chid, &dbr);
         ca_pend_io(1.);
         ca_check_return_code(status);
-        if (status == ECA_NORMAL) {
-        printf("%-30s ",name);
-        printf("%10.2f ",dbr.value);
-        printf("%-9s ",alarmStatusString[dbr.status]);
-        printf("%-12s",alarmSeverityString[dbr.severity]);
-        printf("%10.2f ",dbr.upper_disp_limit);
-        printf("%10.2f ",dbr.lower_disp_limit);
-        printf("%s\n ",dbr.units);
-                }
+        if (status == ECA_NORMAL)
+        {
+            printf("%-30s ", name);
+            printf("%10.2f ", dbr.value);
+            printf("%-9s ", alarmStatusString[dbr.status]);
+            printf("%-12s", alarmSeverityString[dbr.severity]);
+            printf("%10.2f ", dbr.upper_disp_limit);
+            printf("%10.2f ", dbr.lower_disp_limit);
+            printf("%s\n ", dbr.units);
         }
-        else printf("*** wrong type of record entered ***\n");
+    }
+    else
+        printf("*** wrong type of record entered ***\n");
 
 }
-
