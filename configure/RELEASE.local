@@ -1,0 +1,10 @@
+# Set local environment
+-include $(TOP)/../../../RELEASE_SITE
+-include $(TOP)/../../RELEASE_SITE
+-include $(TOP)/RELEASE_SITE
+
+#FOOBAR_MODULE_VERSION	= R3.5-1.0.0
+
+#FOOBAR=$(EPICS_MODULES)/foobar/$(FOOBAR_MODULE_VERSION)
+
+EPICS_BASE=$(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)

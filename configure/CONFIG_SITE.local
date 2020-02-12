@@ -1,0 +1,10 @@
+# CONFIG_SITE.local
+
+# Make any site-specific changes to the EPICS build
+#   configuration variables in this file.
+
+# Set this when you only want to compile this application
+#   for a subset of the cross-compiled target architectures
+#   that Base is built for.
+CROSS_COMPILER_TARGET_ARCHS =
+
