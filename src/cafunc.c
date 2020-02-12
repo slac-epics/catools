@@ -47,19 +47,19 @@ double t;    /* wait in seconds can be decimal*/
 */
 unsigned u;
 #if defined(HP_UX)
-	sleep((unsigned int)t);
+        sleep((unsigned int)t);
 #elif defined(VMS)
-	LIB$WAIT(t);
+        LIB$WAIT(t);
 #elif defined(SGI)
-	sleep((unsigned int)t);
+        sleep((unsigned int)t);
 #elif defined(SOLARIS)
-	sleep((unsigned int)t);
+        sleep((unsigned int)t);
 #elif defined(_WIN32)
-	u=1000* (unsigned int)t;
-	Sleep(u);
+        u=1000* (unsigned int)t;
+        Sleep(u);
 #else
-	u = 1000000 * t;
-	usleep(u);
+        u = 1000000 * t;
+        usleep(u);
 #endif
 }
 
@@ -69,9 +69,9 @@ unsigned u;
 void ca_check_command_error(i) 
 int i;
 {
-	if (i != 0) 
-		CA.CA_ERR = CA_FAIL;
-		else CA.CA_ERR = CA_SUCCESS;
+        if (i != 0) 
+                CA.CA_ERR = CA_FAIL;
+                else CA.CA_ERR = CA_SUCCESS;
 }
 
 /**************************************************
@@ -81,12 +81,12 @@ void ca_check_array_return_code(status)
 int status;
 {
   if (status == ECA_NORMAL) {
-		CA.CA_ERR = CA_SUCCESS;
-		return;
-		}
+                CA.CA_ERR = CA_SUCCESS;
+                return;
+                }
     else CA.CA_ERR = CA_FAIL;
 
-	
+        
   if (status == ECA_TIMEOUT)
         ca_execerror("The operation timed out: "," on list of channels.");
 } 
@@ -98,15 +98,15 @@ void ca_check_return_code(status)
 int status;
 {
   if (status == ECA_NORMAL) {
-		CA.CA_ERR = CA_SUCCESS;
-		pchandata->error = CA_SUCCESS;
-		return;
-		}
+                CA.CA_ERR = CA_SUCCESS;
+                pchandata->error = CA_SUCCESS;
+                return;
+                }
     else { 
-	CA.CA_ERR = CA_FAIL;
-	pchandata->error = -2;
-	}
-	
+        CA.CA_ERR = CA_FAIL;
+        pchandata->error = -2;
+        }
+        
   if (status == ECA_TIMEOUT)
         ca_execerror("The operation timed out: ",(char *)ca_name(pchandata->chid));
   if (status == ECA_GETFAIL)
@@ -142,17 +142,17 @@ double value;
 int status;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return;
-	if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return;
+        if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
-	if (pchan->state == cs_conn) {
-	status = ca_put_conn_data(DBR_DOUBLE,pchan,&value);
-	if (CA.devprflag > 0 && status == ECA_NORMAL)
-		fprintf(stderr,"put success");
-	}
+        if (pchan->state == cs_conn) {
+        status = ca_put_conn_data(DBR_DOUBLE,pchan,&value);
+        if (CA.devprflag > 0 && status == ECA_NORMAL)
+                fprintf(stderr,"put success");
+        }
 }
 
 /**************************************************
@@ -164,21 +164,21 @@ char *name;
 double value=0;
 int status;
 chandata *pchan;
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return value;
-	if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return value;
+        if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
-	if (pchan->state == cs_conn) {
-	if (pchan->type != DBR_STRING) 
-		ca_get_conn_data(DBR_STS_DOUBLE,pchan);
-	else
-		ca_get_conn_data(DBR_STS_STRING,pchan);
+        if (pchan->state == cs_conn) {
+        if (pchan->type != DBR_STRING) 
+                ca_get_conn_data(DBR_STS_DOUBLE,pchan);
+        else
+                ca_get_conn_data(DBR_STS_STRING,pchan);
 
-	value = pchan->value;
-	}
-	return (value);
+        value = pchan->value;
+        }
+        return (value);
 }
 
 /**************************************************
@@ -191,14 +191,14 @@ double *vals;
 double value;
 int status;
 chandata *pchan;
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return;
-	if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return;
+        if (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
-	CA.CA_ERR = CA_FAIL;
-	if (pchan->state == cs_conn) {
+        CA.CA_ERR = CA_FAIL;
+        if (pchan->state == cs_conn) {
         status = ca_get_conn_data(DBR_STS_DOUBLE,pchan);
         if (status == ECA_NORMAL) {
         value = pchan->value;
@@ -208,15 +208,15 @@ chandata *pchan;
         value = pchan->severity;
         *(vals+2) = value;
 
-	if (CA.devprflag > 0) {
-       	 	fprintf(stderr,"name=%s,",name);
-       		fprintf(stderr,"value=%f, status=%f, severity=%f\n ",
-               	         *vals,*(vals+1),*(vals+2));
-       	 	}
+        if (CA.devprflag > 0) {
+                fprintf(stderr,"name=%s,",name);
+                fprintf(stderr,"value=%f, status=%f, severity=%f\n ",
+                         *vals,*(vals+1),*(vals+2));
+                }
 
-		CA.CA_ERR = CA_SUCCESS;
+                CA.CA_ERR = CA_SUCCESS;
         }
-	}
+        }
 }
 
 /**************************************************
@@ -230,33 +230,33 @@ int count=0,imax;
 double value=0;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return status;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0 ) {
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return status;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0 ) {
         ca_find_dev(name,pchandata);
         }
-	pchan = pchandata;
+        pchan = pchandata;
 
 #ifdef ACCESS_SECURITY
-	if (ca_read_access(pchan->chid) == 0) {
-	fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return value;
-		}
+        if (ca_read_access(pchan->chid) == 0) {
+        fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return value;
+                }
 #endif
-	if (pchan->state == cs_conn) {
-		ca_set_puser(pchan->chid,pchan);
-		pchan->error = CA_WAIT;
-             	status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
-				ca_get_dbr_sts_double_callback,pchan);
-		if (status != ECA_NORMAL) {
-			pchandata = pchan;
-			ca_check_return_code(status);
-			}
-		else {
+        if (pchan->state == cs_conn) {
+                ca_set_puser(pchan->chid,pchan);
+                pchan->error = CA_WAIT;
+                status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
+                                ca_get_dbr_sts_double_callback,pchan);
+                if (status != ECA_NORMAL) {
+                        pchandata = pchan;
+                        ca_check_return_code(status);
+                        }
+                else {
 
-		/* wait for ca_get_callback to finish */
+                /* wait for ca_get_callback to finish */
 
-		imax =(int)(CA.PEND_IO_TIME / CA.PEND_EVENT_TIME);
+                imax =(int)(CA.PEND_IO_TIME / CA.PEND_EVENT_TIME);
                 ca_pend_event(CA.PEND_EVENT_TIME);
 
                 while(pchan->error == CA_WAIT) {
@@ -268,10 +268,10 @@ chandata *pchan;
                                 }
                         ca_pend_event(CA.PEND_EVENT_TIME); 
                         }
-		value = pchan->value;
-		}
-	}
-	return (value);
+                value = pchan->value;
+                }
+        }
+        return (value);
 }
 
 /**************************************************
@@ -283,16 +283,16 @@ char *name;
 int status;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return(NULL);
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0 ) {
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return(NULL);
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0 ) {
         ca_find_dev(name,pchandata);
         }
-	pchan = pchandata;
-	if (pchan->state == cs_conn) 
-	ca_get_conn_data(DBR_STS_STRING,pchan);
+        pchan = pchandata;
+        if (pchan->state == cs_conn) 
+        ca_get_conn_data(DBR_STS_STRING,pchan);
 
-	return(pchan->string);
+        return(pchan->string);
 }
 
 /**************************************************
@@ -303,34 +303,34 @@ char *name;
 {
 int status,count=0,imax;
 chandata *pchan;
-	
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return(NULL);
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return(NULL);
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
 #ifdef ACCESS_SECURITY
-	if (ca_read_access(pchan->chid) == 0) {
-	fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return pchan->string;
-		}
+        if (ca_read_access(pchan->chid) == 0) {
+        fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return pchan->string;
+                }
 #endif
-	if (pchan->state == cs_conn) {
-		ca_set_puser(pchan->chid,pchan);
-		pchan->error = CA_WAIT;
-		status = ca_get_callback(DBR_STS_STRING,pchan->chid,
-			ca_get_dbr_sts_string_callback,pchan);
+        if (pchan->state == cs_conn) {
+                ca_set_puser(pchan->chid,pchan);
+                pchan->error = CA_WAIT;
+                status = ca_get_callback(DBR_STS_STRING,pchan->chid,
+                        ca_get_dbr_sts_string_callback,pchan);
 
-		if (status != ECA_NORMAL) {
-			pchandata = pchan;
-			ca_check_return_code(status);
-			}
-		else {
+                if (status != ECA_NORMAL) {
+                        pchandata = pchan;
+                        ca_check_return_code(status);
+                        }
+                else {
 
-		/* wait for ca_get_callback to finish */
+                /* wait for ca_get_callback to finish */
 
-		imax = (int)(CA.PEND_IO_TIME / CA.PEND_EVENT_TIME);
+                imax = (int)(CA.PEND_IO_TIME / CA.PEND_EVENT_TIME);
                 ca_pend_event(CA.PEND_EVENT_TIME);
                 while(pchan->error == CA_WAIT) {
                         count++;
@@ -339,11 +339,11 @@ chandata *pchan;
                                (char *)ca_name(pchan->chid));
                                 break;
                                 }
-                        	ca_pend_event(CA.PEND_EVENT_TIME); 
-                       		}
-		}
-	}
-	return (pchan->string) ;
+                                ca_pend_event(CA.PEND_EVENT_TIME); 
+                                }
+                }
+        }
+        return (pchan->string) ;
 }
 
 /**************************************************
@@ -362,21 +362,21 @@ int status;
 
   if (pchandata->type != TYPENOTCONN) return (CA_SUCCESS);
 
-  	 status = ca_pend_io(CA.PEND_IO_TIME);
-	 ca_check_return_code(status);
+         status = ca_pend_io(CA.PEND_IO_TIME);
+         ca_check_return_code(status);
 
         pchandata->type = ca_field_type(pchandata->chid);
-	pchandata->state = ca_state(pchandata->chid);
+        pchandata->state = ca_state(pchandata->chid);
 
  
 if (CA.devprflag > 0) fprintf(stderr,"chid=%p, type=%ld, state=%d\n",
-	pchandata->chid,pchandata->type,pchandata->state);
+        pchandata->chid,pchandata->type,pchandata->state);
         if (pchandata->state != cs_conn || pchandata->type == TYPENOTCONN) {
-	if (CA.devprflag >= 0) 
-		ca_execerror((char *)ca_name(pchandata->chid),"--- Invalid channel name");
-		CA.CA_ERR = CA_FAIL;
-		} else  CA.CA_ERR = CA_SUCCESS;
-	return (CA.CA_ERR);
+        if (CA.devprflag >= 0) 
+                ca_execerror((char *)ca_name(pchandata->chid),"--- Invalid channel name");
+                CA.CA_ERR = CA_FAIL;
+                } else  CA.CA_ERR = CA_SUCCESS;
+        return (CA.CA_ERR);
 }
 
 /**************************************************
@@ -438,12 +438,12 @@ char value[MAX_STRING_SIZE];
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
-        	status = ca_pend_io(CA.PEND_IO_TIME);
-	        ca_check_return_code(status);
-		if (status == ECA_NORMAL)
-	        strcpy(pchandata->string,value);
-		}
+        else {
+                status = ca_pend_io(CA.PEND_IO_TIME);
+                ca_check_return_code(status);
+                if (status == ECA_NORMAL)
+                strcpy(pchandata->string,value);
+                }
           return status;
         }
         else return ECA_BADCHID;
@@ -465,12 +465,12 @@ float value=0.;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
-	        status = ca_pend_io(CA.PEND_IO_TIME);
-	        ca_check_return_code(status);
-		if (status == ECA_NORMAL)
-	        pchandata->value = value;
-		}
+        else {
+                status = ca_pend_io(CA.PEND_IO_TIME);
+                ca_check_return_code(status);
+                if (status == ECA_NORMAL)
+                pchandata->value = value;
+                }
           return status;
         }
         else return ECA_BADCHID;
@@ -491,22 +491,22 @@ struct dbr_sts_string dbr;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
+        else {
           status = ca_pend_io(CA.PEND_IO_TIME);
           ca_check_return_code(status);
 
-	if (status == ECA_NORMAL) {
-		if (CA.devprflag > 1) {
-		        fprintf(stderr,"\tvalue=%s\n",dbr.value);
-		        fprintf(stderr,"\tstatus=%d\n",dbr.status);
-		        fprintf(stderr,"\tseverity=%d\n",dbr.severity);
-			}
-	        pchandata->status = dbr.status;
-	        pchandata->severity = dbr.severity;
-		strcpy(pchandata->string,dbr.value);
-	        pchandata->value = atof(dbr.value);
-			}
-		}
+        if (status == ECA_NORMAL) {
+                if (CA.devprflag > 1) {
+                        fprintf(stderr,"\tvalue=%s\n",dbr.value);
+                        fprintf(stderr,"\tstatus=%d\n",dbr.status);
+                        fprintf(stderr,"\tseverity=%d\n",dbr.severity);
+                        }
+                pchandata->status = dbr.status;
+                pchandata->severity = dbr.severity;
+                strcpy(pchandata->string,dbr.value);
+                pchandata->value = atof(dbr.value);
+                        }
+                }
           return status;
         }
         else return ECA_BADCHID;
@@ -528,20 +528,20 @@ struct dbr_sts_float dbr;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
+        else {
           status = ca_pend_io(CA.PEND_IO_TIME);
           ca_check_return_code(status);
-	if (status == ECA_NORMAL) {
-	if (CA.devprflag > 1) {
-       		 fprintf(stderr,"\tvalue=%f\n",dbr.value);
-		 fprintf(stderr,"\tstatus=%d\n",dbr.status);
-		 fprintf(stderr,"\tseverity=%d\n",dbr.severity);
-		}
-	        pchandata->value = dbr.value;
-	        pchandata->status = dbr.status;
-	        pchandata->severity = dbr.severity;
-			}
-		}
+        if (status == ECA_NORMAL) {
+        if (CA.devprflag > 1) {
+                 fprintf(stderr,"\tvalue=%f\n",dbr.value);
+                 fprintf(stderr,"\tstatus=%d\n",dbr.status);
+                 fprintf(stderr,"\tseverity=%d\n",dbr.severity);
+                }
+                pchandata->value = dbr.value;
+                pchandata->status = dbr.status;
+                pchandata->severity = dbr.severity;
+                        }
+                }
           return status;
         }
         else return ECA_BADCHID;
@@ -566,20 +566,20 @@ struct dbr_sts_double dbr;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
+        else {
           status = ca_pend_io(CA.PEND_IO_TIME);
           ca_check_return_code(status);
-	if (status == ECA_NORMAL) {
-	if (CA.devprflag > 1) {
-       		fprintf(stderr,"\tvalue=%f\n",dbr.value);
-	        fprintf(stderr,"\tstatus=%d\n",dbr.status);
-	        fprintf(stderr,"\tseverity=%d\n",dbr.severity);
-			}
-       		pchandata->value = dbr.value;
-	        pchandata->status = dbr.status;
-	        pchandata->severity = dbr.severity;
-		}
-	}
+        if (status == ECA_NORMAL) {
+        if (CA.devprflag > 1) {
+                fprintf(stderr,"\tvalue=%f\n",dbr.value);
+                fprintf(stderr,"\tstatus=%d\n",dbr.status);
+                fprintf(stderr,"\tseverity=%d\n",dbr.severity);
+                        }
+                pchandata->value = dbr.value;
+                pchandata->status = dbr.status;
+                pchandata->severity = dbr.severity;
+                }
+        }
           return status;
         }
         else return ECA_BADCHID;
@@ -607,9 +607,9 @@ int status;
                 pchandata->status= dbr->status;
                 pchandata->severity = dbr->severity;
                 strcpy(pchandata->string, dbr->strs[dbr->value]);
-	}
-	return status;
-	}
+        }
+        return status;
+        }
         else return ECA_BADCHID;
 }
 
@@ -629,27 +629,27 @@ struct dbr_gr_enum dbr;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
-	        status = ca_pend_io(CA.PEND_IO_TIME);
-	        ca_check_return_code(status);
-		if (status == ECA_NORMAL)
-	        pchandata->value = dbr.value;
-	        pchandata->status= dbr.status;
-	        pchandata->severity = dbr.severity;
-		strcpy(pchandata->string, dbr.strs[dbr.value]);
+        else {
+                status = ca_pend_io(CA.PEND_IO_TIME);
+                ca_check_return_code(status);
+                if (status == ECA_NORMAL)
+                pchandata->value = dbr.value;
+                pchandata->status= dbr.status;
+                pchandata->severity = dbr.severity;
+                strcpy(pchandata->string, dbr.strs[dbr.value]);
 
-	/* print out status string defined in database */
+        /* print out status string defined in database */
 
 if (CA.devprflag > 2) {
-	fprintf(stderr,"name=%s,status=%d,severity=%d,value=%d\n",
-	(char *)ca_name(pchandata->chid),dbr.status,dbr.severity,dbr.value);
+        fprintf(stderr,"name=%s,status=%d,severity=%d,value=%d\n",
+        (char *)ca_name(pchandata->chid),dbr.status,dbr.severity,dbr.value);
 
-	for (i=0;i<dbr.no_str;i++) 
-	fprintf(stderr,"%d      %s\n",i,dbr.strs[i]);
-	}
-	
+        for (i=0;i<dbr.no_str;i++) 
+        fprintf(stderr,"%d      %s\n",i,dbr.strs[i]);
+        }
+        
 
-		}
+                }
           return status;
         }
         else return ECA_BADCHID;
@@ -671,18 +671,18 @@ struct dbr_ctrl_double dbr;
                 ca_execerror("ca_get failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else {
+        else {
           status = ca_pend_io(CA.PEND_IO_TIME);
           ca_check_return_code(status);
-	if (status == ECA_NORMAL) {
+        if (status == ECA_NORMAL) {
 if (CA.devprflag > 1) {
         fprintf(stderr,"\tprecision=%d\n",dbr.precision);
         fprintf(stderr,"\tRISC_pad0=%d\n",dbr.RISC_pad0);
         fprintf(stderr,"\tunits=%s\n",dbr.units);
-	fprintf(stderr,"\tdisp_limit : [ %f : %f ]\n",
-		dbr.lower_disp_limit, dbr.upper_disp_limit);
-	fprintf(stderr,"\tctrl_limit : [ %f : %f ]\n",
-		dbr.lower_ctrl_limit, dbr.upper_ctrl_limit);
+        fprintf(stderr,"\tdisp_limit : [ %f : %f ]\n",
+                dbr.lower_disp_limit, dbr.upper_disp_limit);
+        fprintf(stderr,"\tctrl_limit : [ %f : %f ]\n",
+                dbr.lower_ctrl_limit, dbr.upper_ctrl_limit);
         fprintf(stderr,"\tupper_alarm_limit=%f\n",dbr.upper_alarm_limit);
         fprintf(stderr,"\tupper_warning_limit=%f\n",dbr.upper_warning_limit);
         fprintf(stderr,"\tlower_warning_limit=%f\n",dbr.lower_warning_limit);
@@ -690,7 +690,7 @@ if (CA.devprflag > 1) {
         fprintf(stderr,"\tvalue=%f\n",dbr.value);
         fprintf(stderr,"\tstatus=%d\n",dbr.status);
         fprintf(stderr,"\tseverity=%d\n",dbr.severity);
-	}
+        }
 
         pchandata->value = dbr.value;
         pchandata->uopr = (float)dbr.upper_disp_limit;
@@ -706,8 +706,8 @@ if (CA.devprflag > 1) {
         strcpy(pchandata->units, dbr.units);
         if (pchandata->largest < dbr.value) pchandata->largest = (float)dbr.value;
         if (pchandata->smallest > dbr.value) pchandata->smallest = (float)dbr.value;
-	}
-	}
+        }
+        }
           return status;
         }
         else return ECA_BADCHID;
@@ -757,12 +757,12 @@ float value;
 
   if (pchandata->type !=TYPENOTCONN) {
         status = ca_put(DBR_FLOAT,pchandata->chid,pvalue);
-	if (status != ECA_NORMAL) {
+        if (status != ECA_NORMAL) {
                 ca_execerror("ca_put failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else pchandata->setpoint = value;
-	
+        else pchandata->setpoint = value;
+        
        if (CA.PEND_EVENT_ON) ca_pend_event(CA.PEND_EVENT_TIME); 
          return status;
         }
@@ -785,12 +785,12 @@ double value;
 
   if (pchandata->state == cs_conn) {
         status = ca_put(DBR_DOUBLE,pchandata->chid,pvalue);
- 	if (status != ECA_NORMAL) {
+        if (status != ECA_NORMAL) {
                 ca_execerror("ca_put failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-  	else pchandata->setpoint = (float)value;
-	
+        else pchandata->setpoint = (float)value;
+        
         if (CA.PEND_EVENT_ON)  ca_pend_event(CA.PEND_EVENT_TIME);
          return status;
         }
@@ -810,12 +810,12 @@ int status;
 
   if (pchandata->state == cs_conn) {
         status = ca_put(DBR_STRING,pchandata->chid,pvalue);
-	if (status != ECA_NORMAL) {
+        if (status != ECA_NORMAL) {
                 ca_execerror("ca_put failed on",(char *)ca_name(pchandata->chid));
                 ca_check_return_code(status);
                 }
-	else pchandata->setpoint = (float)atof(pchandata->string); 
-	
+        else pchandata->setpoint = (float)atof(pchandata->string); 
+        
         if (CA.PEND_EVENT_ON)  ca_pend_event(CA.PEND_EVENT_TIME);
          return status;
         }
@@ -835,7 +835,7 @@ int command_error=0;
 chandata *list;
 
         command_error = ca_pvlist_search(noName,pvName,&list);
-	return(command_error);
+        return(command_error);
 }
 
 
@@ -851,37 +851,37 @@ chandata **list;
 int i,status,command_error=CA_SUCCESS;
 chandata *pnow,*phead,*pchan;
 
-	phead = (chandata *)list;
-	pnow = phead;
-	for (i=0;i<noName;i++) {
-	if (pvName[i]) pchan = (chandata *)ca_check_hash_table(pvName[i]);
-	else pchan = (chandata *)ca_check_hash_table(" ");
-		pnow->next = pchan;
-		pchan->next = NULL;
-		pnow = pchan;
-		}
+        phead = (chandata *)list;
+        pnow = phead;
+        for (i=0;i<noName;i++) {
+        if (pvName[i]) pchan = (chandata *)ca_check_hash_table(pvName[i]);
+        else pchan = (chandata *)ca_check_hash_table(" ");
+                pnow->next = pchan;
+                pchan->next = NULL;
+                pnow = pchan;
+                }
         status = ca_pend_io(CA.PEND_IOLIST_TIME);
         if (status != ECA_NORMAL) ca_check_array_return_code(status);
 
-	pnow = phead->next; i=0;
-	while (pnow)  {
-		pchan = pnow;
-		if (pchan->error == CA_WAIT) status = ECA_TIMEOUT;
-		pchan->type = ca_field_type(pchan->chid);
-		pchan->state = ca_state(pchan->chid);
+        pnow = phead->next; i=0;
+        while (pnow)  {
+                pchan = pnow;
+                if (pchan->error == CA_WAIT) status = ECA_TIMEOUT;
+                pchan->type = ca_field_type(pchan->chid);
+                pchan->state = ca_state(pchan->chid);
 
-		if (pchan->state != cs_conn) {
-			if (CA.devprflag >= 0)
-			fprintf(stderr,"%-30s  ***  channel not found\n",pvName[i]);
-			pchan->error = CA_WAIT;
-			command_error = CA_FAIL;
-			}  else   pchan->error = 0;
-		pnow = pnow->next; i++;
-		}
+                if (pchan->state != cs_conn) {
+                        if (CA.devprflag >= 0)
+                        fprintf(stderr,"%-30s  ***  channel not found\n",pvName[i]);
+                        pchan->error = CA_WAIT;
+                        command_error = CA_FAIL;
+                        }  else   pchan->error = 0;
+                pnow = pnow->next; i++;
+                }
 
-	ca_check_command_error(command_error);
-	if (command_error == CA_SUCCESS) return(CA_SUCCESS);  
-		else return(CA_FAIL);
+        ca_check_command_error(command_error);
+        if (command_error == CA_SUCCESS) return(CA_SUCCESS);  
+                else return(CA_FAIL);
 }
 
 /**************************************************
@@ -896,12 +896,12 @@ int i,status,command_error=0;
 int count=0,imax;
 chandata *list, *snode, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list;
         while (snode)  {
                 pchan = snode;
-		if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
                         ca_set_puser(pchan->chid,pchan);
                         pchan->error = CA_WAIT;
                         status = ca_get_callback(DBR_STS_STRING,pchan->chid,
@@ -911,12 +911,12 @@ chandata *list, *snode, *pchan;
                                  command_error = CA_FAIL;
                                  ca_check_array_return_code(status);
                                 }
-			}
+                        }
 
 
                 snode = snode->next;
                 }
-	
+        
         imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
 
         snode = list; i=0;
@@ -929,18 +929,18 @@ chandata *list, *snode, *pchan;
                         while (pchan->error == CA_WAIT) {
                                 count++;
                                 if (count > imax) {
-                	ca_execerror("ca_get_string_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
+                        ca_execerror("ca_get_string_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
                                 ca_pend_event(CA.PEND_EVENT_TIME);
                                 }
-               		 *(value+i) = pchan->string;
-			}
+                         *(value+i) = pchan->string;
+                        }
                 snode = snode->next; i++;
-		}	
+                }       
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
  
 
@@ -956,12 +956,12 @@ int i,status,command_error=0;
 int count=0,imax;
 chandata *list, *snode, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list;
         while (snode)  {
                 pchan = snode;
-		if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
                         ca_set_puser(pchan->chid,pchan);
                         pchan->error = CA_WAIT;
                         status = ca_get_callback(DBR_STS_STRING,pchan->chid,
@@ -971,12 +971,12 @@ chandata *list, *snode, *pchan;
                                  command_error = CA_FAIL;
                                  ca_check_array_return_code(status);
                                 }
-			}
+                        }
 
 
                 snode = snode->next;
                 }
-	
+        
         imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
 
         snode = list; i=0;
@@ -989,20 +989,20 @@ chandata *list, *snode, *pchan;
                         while (pchan->error == CA_WAIT) {
                                 count++;
                                 if (count > imax) {
-                	ca_execerror("ca_get_all_string_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
+                        ca_execerror("ca_get_all_string_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
                                 ca_pend_event(CA.PEND_EVENT_TIME);
                                 }
-			sprintf(pchan->string,"%-20s %2d %2d",pchan->string,
-				pchan->status,pchan->severity);
-               		 *(value+i) = pchan->string;
-			}
+                        sprintf(pchan->string,"%-20s %2d %2d",pchan->string,
+                                pchan->status,pchan->severity);
+                         *(value+i) = pchan->string;
+                        }
                 snode = snode->next; i++;
-		}	
+                }       
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
  
 
@@ -1018,33 +1018,33 @@ int i,status,command_error=0;
 int count=0,imax;
 chandata *list, *snode, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list;
         while (snode)  {
                 pchan = snode;
-		if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
                 ca_set_puser(pchan->chid,pchan);
                 pchan->error = CA_WAIT;
 
-		if (pchan->type == DBR_STRING)
-		status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
-			ca_get_dbr_sts_string_callback,pchan);
-		else
-		status = ca_get_callback(DBR_CTRL_DOUBLE,pchan->chid,
-			ca_get_dbr_ctrl_double_callback,pchan);
+                if (pchan->type == DBR_STRING)
+                status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
+                        ca_get_dbr_sts_string_callback,pchan);
+                else
+                status = ca_get_callback(DBR_CTRL_DOUBLE,pchan->chid,
+                        ca_get_dbr_ctrl_double_callback,pchan);
 
 if (pchan->type == DBR_GR_ENUM || pchan->type ==  DBR_ENUM)  
-	ca_get_conn_data(DBR_GR_ENUM,pchan);
+        ca_get_conn_data(DBR_GR_ENUM,pchan);
 
-	        if (status != ECA_NORMAL) {
-			command_error = CA_FAIL;
-			ca_check_array_return_code(status);
-				}
-			}
+                if (status != ECA_NORMAL) {
+                        command_error = CA_FAIL;
+                        ca_check_array_return_code(status);
+                                }
+                        }
                 snode = snode->next;
-		}
-        	status = ca_pend_event(CA.PEND_EVENT_TIME);
+                }
+                status = ca_pend_event(CA.PEND_EVENT_TIME);
 
 fprintf(stderr,"\nDEVICE                       TYPE VALUE STATUS SEVR  UNITS       UOPR     LOPR \n");
 
@@ -1060,10 +1060,10 @@ fprintf(stderr,"\nDEVICE                       TYPE VALUE STATUS SEVR  UNITS    
                         while (pchan->error == CA_WAIT) {
                                 count++;
                                 if (count > imax) {
-                	ca_execerror("ca_get_info_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
+                        ca_execerror("ca_get_info_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
                                 ca_pend_event(CA.PEND_EVENT_TIME);
                                 }
 if (pchan->type != DBR_STRING)
@@ -1074,13 +1074,13 @@ else
 fprintf(stderr,"%-30s %2ld %-10s %2d %2d %-9s %10f %10f\n",
 (char *)ca_name(pchan->chid),pchan->type,pchan->string,pchan->status,
 pchan->severity,pchan->units,pchan->uopr,pchan->lopr);
-			*(value+i) = pchan->value;
-			}
+                        *(value+i) = pchan->value;
+                        }
                 snode = snode->next;
-		i++;
+                i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1095,33 +1095,33 @@ int count=0,imax;
 chandata *list, *snode, *pchan;
 
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list;
         while (snode)  {
                 pchan = snode;
-		if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
                 ca_set_puser(pchan->chid,pchan);
                 pchan->error = CA_WAIT;
 
-		if (pchan->type == DBR_STRING)
-		status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
-			ca_get_dbr_sts_string_callback,pchan);
-		else
-		status = ca_get_callback(DBR_CTRL_DOUBLE,pchan->chid,
-			ca_get_dbr_ctrl_double_callback,pchan);
+                if (pchan->type == DBR_STRING)
+                status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
+                        ca_get_dbr_sts_string_callback,pchan);
+                else
+                status = ca_get_callback(DBR_CTRL_DOUBLE,pchan->chid,
+                        ca_get_dbr_ctrl_double_callback,pchan);
 
 if (pchan->type == DBR_GR_ENUM || pchan->type ==  DBR_ENUM)  
-	ca_get_conn_data(DBR_GR_ENUM,pchan);
+        ca_get_conn_data(DBR_GR_ENUM,pchan);
 
-	        if (status != ECA_NORMAL) {
-			command_error = CA_FAIL;
-			ca_check_array_return_code(status);
-				}
-			}
+                if (status != ECA_NORMAL) {
+                        command_error = CA_FAIL;
+                        ca_check_array_return_code(status);
+                                }
+                        }
                 snode = snode->next;
-		}
-        	status = ca_pend_event(CA.PEND_EVENT_TIME);
+                }
+                status = ca_pend_event(CA.PEND_EVENT_TIME);
 
         imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
 
@@ -1135,19 +1135,19 @@ if (pchan->type == DBR_GR_ENUM || pchan->type ==  DBR_ENUM)
                         while (pchan->error == CA_WAIT) {
                                 count++;
                                 if (count > imax) {
-                		ca_execerror("ca_populate_info_array timeout",
-				(char *)ca_name(pchan->chid));
-					 break;
-					}
+                                ca_execerror("ca_populate_info_array timeout",
+                                (char *)ca_name(pchan->chid));
+                                         break;
+                                        }
                                 ca_pend_event(CA.PEND_EVENT_TIME);
                                 }
-			}
-		if (pchan->error == CA_WAIT) break;
+                        }
+                if (pchan->error == CA_WAIT) break;
                 snode = snode->next;
-		i++;
+                i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1161,29 +1161,29 @@ int  *value;
 int i,command_error=0;
 chandata *list, *snode, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list; i=0;
         while (snode)  {
                 pchan = (chandata *)snode;
-		pchan->type = ca_field_type(pchan->chid);
+                pchan->type = ca_field_type(pchan->chid);
                 if (pchan->state != cs_conn) {
-			command_error = CA_FAIL;
-			*(value+i) = CA_FAIL;
-			}
+                        command_error = CA_FAIL;
+                        *(value+i) = CA_FAIL;
+                        }
                 else {
-			if (pchan->error != 0) command_error = CA_FAIL;
-			*(value+i) = pchan->error;  /* timeout if is -2 */
-			}
+                        if (pchan->error != 0) command_error = CA_FAIL;
+                        *(value+i) = pchan->error;  /* timeout if is -2 */
+                        }
                 snode = snode->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /****************************************************
  *  get native DB field type for the given array 
- *  	-1 count will be returned for not connected channel
+ *      -1 count will be returned for not connected channel
  ****************************************************/
 void ca_get_field_type_array(noName,pvName,value)
 int noName;
@@ -1193,28 +1193,28 @@ int  *value;
 int i,command_error=0;
 chandata *list, *pnow, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         pnow = list; i=0;
         while (pnow)  {
                 pchan = pnow;
-		pchan->type = ca_field_type(pchan->chid);
+                pchan->type = ca_field_type(pchan->chid);
                 if (pchan->state != cs_conn) {
-			command_error = CA_FAIL;
-			*(value+i) = CA_FAIL;
-			}
+                        command_error = CA_FAIL;
+                        *(value+i) = CA_FAIL;
+                        }
                 else {
-			*(value+i) = pchan->type;
-			}
+                        *(value+i) = pchan->type;
+                        }
                 pnow = pnow->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /****************************************************
  *  get native DB count for the given array 
- *  	0 count will be returned for not connected channel
+ *      0 count will be returned for not connected channel
  ****************************************************/
 void ca_get_element_count_array(noName,pvName,value)
 int noName;
@@ -1224,23 +1224,23 @@ int  *value;
 int i,command_error=0;
 chandata *list, *pnow, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         pnow = list; i=0;
         while (pnow)  {
                 pchan = pnow;
-		pchan->type = ca_field_type(pchan->chid);
+                pchan->type = ca_field_type(pchan->chid);
                 if (pchan->state != cs_conn) {
-			command_error = CA_FAIL;
-			*(value+i) = 0;
-			}
+                        command_error = CA_FAIL;
+                        *(value+i) = 0;
+                        }
                 else {
-			*(value+i) = ca_element_count(pchan->chid);
-			}
+                        *(value+i) = ca_element_count(pchan->chid);
+                        }
                 pnow = pnow->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /****************************************************
@@ -1255,23 +1255,23 @@ int  *value;
 int i,command_error=0;
 chandata *list, *pnow, *pchan;
 
-	command_error = ca_pvlist_search(noName,pvName,&list);
+        command_error = ca_pvlist_search(noName,pvName,&list);
 
         pnow = list; i=0;
         while (pnow)  {
                 pchan = pnow;
-		pchan->type = ca_field_type(pchan->chid);
+                pchan->type = ca_field_type(pchan->chid);
                 if (pchan->state != cs_conn) {
-			command_error = CA_FAIL;
-			*(value+i) = CA_FAIL;
-			}
+                        command_error = CA_FAIL;
+                        *(value+i) = CA_FAIL;
+                        }
                 else {
-			*(value+i) = pchan->status;
-			}
+                        *(value+i) = pchan->status;
+                        }
                 pnow = pnow->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1293,18 +1293,18 @@ chandata *list, *snode, *pchan;
                 pchan = snode;
                 if (pchan->state == cs_conn) {
                      ca_set_puser(pchan->chid,pchan);
-		     pchan->error = CA_WAIT;
-		     if (pchan->type == DBR_STRING)  
-		     status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
-				ca_get_dbr_sts_string_callback,pchan);
-		else 	
-	    	     status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid, 
-				ca_get_dbr_sts_double_callback,pchan);
-		     if (status != ECA_NORMAL) {
-				command_error = CA_FAIL;
+                     pchan->error = CA_WAIT;
+                     if (pchan->type == DBR_STRING)  
+                     status = ca_get_callback(DBR_STS_STRING,pchan->chid, 
+                                ca_get_dbr_sts_string_callback,pchan);
+                else    
+                     status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid, 
+                                ca_get_dbr_sts_double_callback,pchan);
+                     if (status != ECA_NORMAL) {
+                                command_error = CA_FAIL;
                                 ca_check_array_return_code(status);
-				}
-			}
+                                }
+                        }
                 snode = snode->next;
                 }
 
@@ -1319,18 +1319,18 @@ chandata *list, *snode, *pchan;
                         while (pchan->error == CA_WAIT) {
                                 count++;
                                 if (count > imax) {
-                	ca_execerror("ca_get_status_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
+                        ca_execerror("ca_get_status_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
                                 ca_pend_event(CA.PEND_EVENT_TIME);
                                 }
-			*(value+i) = pchan->status;
-			}
+                        *(value+i) = pchan->status;
+                        }
                 snode = snode->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1350,17 +1350,17 @@ chandata *list, *snode, *pchan;
         while (snode)  {
                 pchan = snode;
                 if (pchan->state == cs_conn) {
-			if (pchan->type == DBR_STRING)  
-			status = ca_get_conn_data(DBR_STS_STRING,pchan);
-			else 	
-			status = ca_get_conn_data(DBR_STS_DOUBLE,pchan);
-			if (status != ECA_NORMAL) command_error = CA_FAIL;
-			*(value+i) = pchan->value;
-			}
+                        if (pchan->type == DBR_STRING)  
+                        status = ca_get_conn_data(DBR_STS_STRING,pchan);
+                        else    
+                        status = ca_get_conn_data(DBR_STS_DOUBLE,pchan);
+                        if (status != ECA_NORMAL) command_error = CA_FAIL;
+                        *(value+i) = pchan->value;
+                        }
                 snode = snode->next; i++;
                 }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1380,47 +1380,47 @@ chandata *list,*snode,*pchan;
         snode = list;
         while (snode)  {
                 pchan = snode;
-		if (pchan->state == cs_conn) {
-			ca_set_puser(pchan->chid,pchan);
-			pchan->error = CA_WAIT;
-			status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
-				ca_get_dbr_sts_double_callback,pchan);
+                if (pchan->state == cs_conn) {
+                        ca_set_puser(pchan->chid,pchan);
+                        pchan->error = CA_WAIT;
+                        status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
+                                ca_get_dbr_sts_double_callback,pchan);
 
-			if (status != ECA_NORMAL) {
-				 command_error = CA_FAIL;
-				 ca_check_array_return_code(status);
-				}
-			}
+                        if (status != ECA_NORMAL) {
+                                 command_error = CA_FAIL;
+                                 ca_check_array_return_code(status);
+                                }
+                        }
                 snode = snode->next;
                 }
         status = ca_pend_event(CA.PEND_EVENT_TIME);
 
-	imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
+        imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
 
         snode = list; i=0;
         while (snode)  {
                 pchan = snode;
                 if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
 
-			/* wait for ca_get_callback to finish */
+                        /* wait for ca_get_callback to finish */
 
-			while (pchan->error == CA_WAIT) {
-				count++;
-				if (count > imax) {
-                	ca_execerror("ca_get_all_double_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
-				ca_pend_event(CA.PEND_EVENT_TIME);
-				}
-			*(value+i*3) = pchan->value;
-			*(value+i*3+1) = pchan->status;
-			*(value+i*3+2) = pchan->severity;
-			}
+                        while (pchan->error == CA_WAIT) {
+                                count++;
+                                if (count > imax) {
+                        ca_execerror("ca_get_all_double_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
+                                ca_pend_event(CA.PEND_EVENT_TIME);
+                                }
+                        *(value+i*3) = pchan->value;
+                        *(value+i*3+1) = pchan->status;
+                        *(value+i*3+2) = pchan->severity;
+                        }
                 snode = snode->next; i++;
-		}
-	
-	ca_check_command_error(command_error);
+                }
+        
+        ca_check_command_error(command_error);
 }
 
 /**************************************************
@@ -1438,50 +1438,50 @@ chandata *list, *snode, *pchan;
         command_error = ca_pvlist_search(noName,pvName,&list);
 
         snode = list;
-	
+        
         while (snode)  {
                 pchan = snode;
 /*fprintf(stderr,"%s, %x, next=%x\n",(char *)ca_name(pchan->chid),pchan,pchan->next);
  */
-		if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
-			ca_set_puser(pchan->chid,pchan);
-			pchan->error = CA_WAIT;
-			status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
-				ca_get_dbr_sts_double_callback,pchan);
+                if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                        ca_set_puser(pchan->chid,pchan);
+                        pchan->error = CA_WAIT;
+                        status = ca_get_callback(DBR_STS_DOUBLE,pchan->chid,
+                                ca_get_dbr_sts_double_callback,pchan);
 
-			if (status != ECA_NORMAL) {
-				 command_error = CA_FAIL;
-				 ca_check_array_return_code(status);
-				}
-			}
+                        if (status != ECA_NORMAL) {
+                                 command_error = CA_FAIL;
+                                 ca_check_array_return_code(status);
+                                }
+                        }
                 snode = snode->next;
                 }
         status = ca_pend_event(CA.PEND_EVENT_TIME);
 
-	imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
+        imax = (int)(CA.PEND_IOLIST_TIME / CA.PEND_EVENT_TIME);
 
         snode = list; i=0;
         while (snode)  {
                 pchan = snode;
                 if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
 
-			/* wait for ca_get_callback to finish */
+                        /* wait for ca_get_callback to finish */
 
-			while (pchan->error == CA_WAIT) {
-				count++;
-				if (count > imax) {
-                	ca_execerror("ca_get_double_array timeout on:",
-				(char *)ca_name(pchan->chid));
-					break;
-					}
-				ca_pend_event(CA.PEND_EVENT_TIME);
-				}
-			*(value+i) = pchan->value;
-			}
+                        while (pchan->error == CA_WAIT) {
+                                count++;
+                                if (count > imax) {
+                        ca_execerror("ca_get_double_array timeout on:",
+                                (char *)ca_name(pchan->chid));
+                                        break;
+                                        }
+                                ca_pend_event(CA.PEND_EVENT_TIME);
+                                }
+                        *(value+i) = pchan->value;
+                        }
                 snode = snode->next; i++;
-		}
+                }
 
-	ca_check_command_error(command_error);
+        ca_check_command_error(command_error);
 }
 
 
@@ -1508,7 +1508,7 @@ chandata *list, *snode,*pchan;
    }
    if (status != ECA_NORMAL) {
      ca_execerror("ca_put failed on",
-		  (char *)ca_name(pchan->chid));
+                  (char *)ca_name(pchan->chid));
      pchandata = pchan;
      ca_check_return_code(status);
    }
@@ -1544,7 +1544,7 @@ chandata *pchan,*list,*snode;
    
    if (status != ECA_NORMAL) {
      ca_execerror("ca_put failed on",
-		  (char *)ca_name(pchan->chid));
+                  (char *)ca_name(pchan->chid));
      pchandata = pchan;
      ca_check_return_code(status);
    }
@@ -1558,7 +1558,7 @@ chandata *pchan,*list,*snode;
 
 
 /******************************************
-	get record field no of data count
+        get record field no of data count
 ******************************************/
 int ca_get_count(name)
 char *name;
@@ -1567,16 +1567,16 @@ int no=0;     /* count */
 int status;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return no;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return no;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
-	if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
-       	 	no = ca_element_count(pchan->chid);
-	}
-	return no;
+        if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
+                no = ca_element_count(pchan->chid);
+        }
+        return no;
 }
 
 /******************************************
@@ -1591,27 +1591,27 @@ int i,count=0,type,status;
 unsigned size1,size2,size3;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return -1;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return -1;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
 #ifdef ACCESS_SECURITY
-	if (ca_read_access(pchan->chid) == 0) {
-	fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return CA_FAIL;
-		}
+        if (ca_read_access(pchan->chid) == 0) {
+        fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return CA_FAIL;
+                }
 #endif
         count = ca_element_count(pchan->chid);
 if(count == 0 || pchan->state != cs_conn) {
-	if (CA.devprflag >=0 )
-	fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
-	status = ECA_BADCHID;
-	pchandata = pchan;
-	ca_check_return_code(status);
-	return status;
-	}
+        if (CA.devprflag >=0 )
+        fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
+        status = ECA_BADCHID;
+        pchandata = pchan;
+        ca_check_return_code(status);
+        return status;
+        }
 if (pchan->state == cs_conn && pchan->type != TYPENOTCONN) {
         type = ca_field_type(pchan->chid);
 
@@ -1625,10 +1625,10 @@ fprintf(stderr,"type=%d, count=%d, size1=%d, size2=%d, size3=%d\n",
         ca_array_get(type,count,pchan->chid,&wf_buf);
         status = ca_pend_io(CA.PEND_IOLIST_TIME);
         if (status != ECA_NORMAL) {
-		pchandata = pchan;
-		ca_check_return_code(status);
-		}
-		
+                pchandata = pchan;
+                ca_check_return_code(status);
+                }
+                
 
 switch (type) {
 
@@ -1686,27 +1686,27 @@ int i,count=0,type,status;
 unsigned size1,size2,size3;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return CA_FAIL;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return CA_FAIL;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
 #ifdef ACCESS_SECURITY
-	if (ca_write_access(pchan->chid) == 0) {
-	fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return CA_FAIL;
-		}
+        if (ca_write_access(pchan->chid) == 0) {
+        fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return CA_FAIL;
+                }
 #endif
         count = ca_element_count(pchan->chid);
 if(count == 0 || pchan->state != cs_conn) {
-	if (CA.devprflag >=0 )
-	fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
-	status = ECA_BADCHID;
-	pchandata = pchan;
-	ca_check_return_code(status);
-	return(count);
-	}
+        if (CA.devprflag >=0 )
+        fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
+        status = ECA_BADCHID;
+        pchandata = pchan;
+        ca_check_return_code(status);
+        return(count);
+        }
 if (pchan->type != TYPENOTCONN && pchan->state == cs_conn) {
         type = ca_field_type(pchan->chid);
 
@@ -1763,13 +1763,13 @@ default: /* CHAR UCHAR USHORT  LONG ULONG */
         }
 
         if (status != ECA_NORMAL) {
-		pchandata = pchan;
-		ca_check_return_code(status);
-		}
+                pchandata = pchan;
+                ca_check_return_code(status);
+                }
         ca_pend_event(CA.PEND_EVENT_TIME);
         return (count);
-	}
-	
+        }
+        
         else { return(CA_FAIL); }
 }
 
@@ -1786,41 +1786,41 @@ void *pdata;
 {
 int type,status;
 chandata *pchan;
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return CA_FAIL;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return CA_FAIL;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
 
 #ifdef ACCESS_SECURITY
-	if (ca_read_access(pchan->chid) == 0) {
-	fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return CA_FAIL;
-		}
+        if (ca_read_access(pchan->chid) == 0) {
+        fprintf(stderr,"Read access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return CA_FAIL;
+                }
 #endif
 if (pchan->type != TYPENOTCONN) {
         type = ca_field_type(pchan->chid);
 
 if(pchan->state == cs_closed) {
-	if (CA.devprflag >=0 )
-	fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
-	status = ECA_BADCHID;
-	pchandata = pchan;
-	ca_check_return_code(status);
-	}
+        if (CA.devprflag >=0 )
+        fprintf(stderr,"%s --- Invalid channel name\n",(char *)ca_name(pchan->chid));
+        status = ECA_BADCHID;
+        pchandata = pchan;
+        ca_check_return_code(status);
+        }
 else {
 if (CA.devprflag > 0)
    fprintf(stderr,"type=%d, count=%d\n",type,count);
 
         ca_array_get(type,count,pchan->chid,pdata);
 
-	status = ca_pend_io(CA.PEND_IOLIST_TIME);
+        status = ca_pend_io(CA.PEND_IOLIST_TIME);
         if (status != ECA_NORMAL)  {
-		pchandata = pchan;
-		ca_check_return_code(status);
-		}
+                pchandata = pchan;
+                ca_check_return_code(status);
+                }
     }
-	}
+        }
         else return(CA_FAIL);
 
         return 0;
@@ -1841,17 +1841,17 @@ void *val;
 int count,type,status;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return CA_FAIL;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return CA_FAIL;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
  
 #ifdef ACCESS_SECURITY
-	if (ca_write_access(pchan->chid) == 0) {
-	fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return CA_FAIL;
-		}
+        if (ca_write_access(pchan->chid) == 0) {
+        fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return CA_FAIL;
+                }
 #endif
         if (pchan->type != TYPENOTCONN && pchan->state != cs_closed) {
            type = ca_field_type(pchan->chid);
@@ -1861,7 +1861,7 @@ chandata *pchan;
            if (CA.devprflag > 0)
                 fprintf(stderr,"ca_put_native_wave_form: type=%d, count=%d\n",
                                 type,count);
-		
+                
            ca_array_put(type,count,pchan->chid,val);
            ca_pend_event(CA.PEND_EVENT_TIME);
            return (count);
@@ -1885,62 +1885,62 @@ int i;
 int count,type,status,size;
 chandata *pchan;
 
-	status = ca_find_dev(name,pchandata);
-	if (status == CA_FAIL) return status;
-	while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
-		ca_find_dev(name,pchandata); 
-	pchan = pchandata;
+        status = ca_find_dev(name,pchandata);
+        if (status == CA_FAIL) return status;
+        while (strcmp(name,(char *)ca_name(pchandata->chid)) != 0) 
+                ca_find_dev(name,pchandata); 
+        pchan = pchandata;
  
 #ifdef ACCESS_SECURITY
-	if (ca_write_access(pchan->chid) == 0) {
-	fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
-	return CA_FAIL;
-		}
+        if (ca_write_access(pchan->chid) == 0) {
+        fprintf(stderr,"Write access denied on : %s\n",(char *)ca_name(pchan->chid));
+        return CA_FAIL;
+                }
 #endif
-	if (pchan->type != TYPENOTCONN && pchan->state != cs_closed) {
+        if (pchan->type != TYPENOTCONN && pchan->state != cs_closed) {
            type = ca_field_type(pchan->chid);
            count = ca_element_count(pchan->chid);
-	   size = dbr_size_n(type,count);
+           size = dbr_size_n(type,count);
 
-	   if (count > n) count=n;
-	   if (CA.devprflag > 0)
-   		fprintf(stderr,"ca_put_string_wave_form: type=%d, count=%d\n",
-           	                type,count);
-	switch (type) {
-	case DBR_CHAR:
-		for (i=0;i<n;i++) wf_buf.cv[i]=atoi(val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.cv);
-		break;
-	case DBR_STRING:
-		for (i=0;i<n;i++) sprintf(wf_buf.pv[i],"%s",val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.pv);
-		break;
-	case DBR_FLOAT:
-		for (i=0;i<n;i++) wf_buf.fv[i]=(float)atof(val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.fv);
-		break;
-	case DBR_DOUBLE:
-		for (i=0;i<n;i++) wf_buf.dv[i]=atof(val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.dv);
-		break;
-	case DBR_SHORT:
-	case DBR_ENUM:
-		for (i=0;i<n;i++) wf_buf.sv[i]=atoi(val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.sv);
-		break;
-	default:
-		for (i=0;i<n;i++) wf_buf.iv[i]=atoi(val[i]);
-       	   	status = ca_array_put(type,count,pchan->chid,wf_buf.iv);
-		break;
-	}
-	   if (status != ECA_NORMAL) {
-		ca_check_return_code(status);
-		pchandata = pchan;
-		}
-           ca_pend_event(CA.PEND_EVENT_TIME);
-	   return (count);
+           if (count > n) count=n;
+           if (CA.devprflag > 0)
+                fprintf(stderr,"ca_put_string_wave_form: type=%d, count=%d\n",
+                                type,count);
+        switch (type) {
+        case DBR_CHAR:
+                for (i=0;i<n;i++) wf_buf.cv[i]=atoi(val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.cv);
+                break;
+        case DBR_STRING:
+                for (i=0;i<n;i++) sprintf(wf_buf.pv[i],"%s",val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.pv);
+                break;
+        case DBR_FLOAT:
+                for (i=0;i<n;i++) wf_buf.fv[i]=(float)atof(val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.fv);
+                break;
+        case DBR_DOUBLE:
+                for (i=0;i<n;i++) wf_buf.dv[i]=atof(val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.dv);
+                break;
+        case DBR_SHORT:
+        case DBR_ENUM:
+                for (i=0;i<n;i++) wf_buf.sv[i]=atoi(val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.sv);
+                break;
+        default:
+                for (i=0;i<n;i++) wf_buf.iv[i]=atoi(val[i]);
+                status = ca_array_put(type,count,pchan->chid,wf_buf.iv);
+                break;
         }
-	
+           if (status != ECA_NORMAL) {
+                ca_check_return_code(status);
+                pchandata = pchan;
+                }
+           ca_pend_event(CA.PEND_EVENT_TIME);
+           return (count);
+        }
+        
            else { return(CA_FAIL); }
 }
 

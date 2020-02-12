@@ -31,7 +31,7 @@
 #include        "epicsVersion.h"
 #include        "errlog.h"
 
-#define 	MAX_NUM_FIELD 	50
+#define         MAX_NUM_FIELD   50
 
 DBBASE  *ca_dbOpen();
 
@@ -53,10 +53,10 @@ long dbReadDatabaseFP(
 #endif
 
 
-/* input:	database name
+/* input:       database name
    output:      pdbbase, pdbentry
    return:      -1 failed
-		0 succeeded
+                0 succeeded
 */
 DBBASE  *ca_dbOpen(filename)
 char *filename;
@@ -76,18 +76,18 @@ strcpy(file,filename);
         status=dbReadDatabaseFP(&pdbbase,fp,0,0);
         if(status) errMessage(status,"dbRead");
         fclose(fp);
-	if (status) return(NULL);
-	return(pdbbase);
+        if (status) return(NULL);
+        return(pdbbase);
 }
 
 
-/* input: 	filename -   database name
-		name	 -   record pv name
-		field	 -   field name
-   output:      S_type	 -   record type as string
-		S_value  -   field value as string
+/* input:       filename -   database name
+                name     -   record pv name
+                field    -   field name
+   output:      S_type   -   record type as string
+                S_value  -   field value as string
    return:      1  if found
-		0  if not found
+                0  if not found
 */
 int ca_dbGetRecField(filename,name,field,S_type,S_value)
 char *filename, *name, *field;
@@ -103,8 +103,8 @@ char *type,*value;
 char file[80];
 strcpy(file,filename);
 
-	pdbbase = (DBBASE *)ca_dbOpen(file);
-	if (pdbbase==NULL ) {
+        pdbbase = (DBBASE *)ca_dbOpen(file);
+        if (pdbbase==NULL ) {
                 printf("ca_dbOpen: '%s' failed!\n",file);
                 return(0);
                 }
@@ -113,13 +113,13 @@ strcpy(file,filename);
         status = dbFirstRecordType(pdbentry);
     if(status) {printf("No record description\n"); return status;}
     while(!status) {
-	type = dbGetRecordTypeName(pdbentry);
+        type = dbGetRecordTypeName(pdbentry);
         status = dbFirstRecord(pdbentry);
         if (!status) temp=dbGetRecordName(pdbentry);
         while (!status) {
                 if (strcmp(name, temp) == 0) {
-	i=1;
-	if (strcmp(field,"TYPE") != 0 ) {
+        i=1;
+        if (strcmp(field,"TYPE") != 0 ) {
            status = dbFirstField(pdbentry,TRUE);
            if (status) printf("  No Fields\n");
            while (!status) {
@@ -128,29 +128,29 @@ strcpy(file,filename);
 TRUE);
                 else {
                         value=dbGetString(pdbentry);
-			strcpy(S_value,value);
-			strcpy(S_type,type);
+                        strcpy(S_value,value);
+                        strcpy(S_type,type);
                         status=TRUE;
                         goto STEP1;
                                 }
                         }
                 }
-	else {
-		strcpy(S_type,type);
-		strcpy(S_value,type);
-		status = TRUE;
-		goto STEP1;
-		}
-	}
+        else {
+                strcpy(S_type,type);
+                strcpy(S_value,type);
+                status = TRUE;
+                goto STEP1;
+                }
+        }
            status = dbNextRecord(pdbentry);
            temp = dbGetRecordName(pdbentry);
         }
         status = dbNextRecordType(pdbentry);
    }
    printf("End of all Records! ");
-		i=1;
-		strcpy(S_type," ");
-		strcpy(S_value," ");
+                i=1;
+                strcpy(S_type," ");
+                strcpy(S_value," ");
 
 STEP1:
     dbFinishEntry(pdbentry);
@@ -161,15 +161,15 @@ STEP1:
 }
 
 
-/* input:	database name
-		record name
+/* input:       database name
+                record name
    output:
-		S_type    - record_type 
-		S_field[] - array of fieldnames
-		S_value[] - array of fieldvalues
-		D_type[]  - array of fieldtypes
+                S_type    - record_type 
+                S_field[] - array of fieldnames
+                S_value[] - array of fieldvalues
+                D_type[]  - array of fieldtypes
    return:
-		number of fields found
+                number of fields found
 */
 int ca_dbGetRecFields(filename,name,S_type,S_field,S_value,D_type)
 char *filename, *name;
@@ -186,8 +186,8 @@ char *type,*value;
 char file[80];
 strcpy(file,filename);
 
-	pdbbase = (DBBASE *)ca_dbOpen(file);
-	if (pdbbase==NULL ) {
+        pdbbase = (DBBASE *)ca_dbOpen(file);
+        if (pdbbase==NULL ) {
                 printf("ca_dbOpen: '%s' failed!\n",file);
                 return(0);
                 }
@@ -196,24 +196,24 @@ strcpy(file,filename);
         status = dbFirstRecordType(pdbentry);
     if(status) {printf("No record description\n"); return status;}
     while(!status) {
-	type = dbGetRecordTypeName(pdbentry);
+        type = dbGetRecordTypeName(pdbentry);
         status = dbFirstRecord(pdbentry);
         if (!status) temp=dbGetRecordName(pdbentry);
         while (!status) {
                 if (strcmp(name, temp) == 0) {
-	i=0;
-	   strcpy(S_type,type);
+        i=0;
+           strcpy(S_type,type);
            status = dbFirstField(pdbentry,TRUE);
            if (status) printf("  No Fields\n");
            while (!status) {
                 temp=dbGetFieldName(pdbentry);
-		D_type[i] = dbGetFieldType(pdbentry);
+                D_type[i] = dbGetFieldType(pdbentry);
                         value=dbGetString(pdbentry);
-			strcpy(S_field[i],temp);
-			strcpy(S_value[i],value);
+                        strcpy(S_field[i],temp);
+                        strcpy(S_value[i],value);
                 status = dbNextField(pdbentry,TRUE);
-		i++;
-		}
+                i++;
+                }
                status=TRUE;
                goto STEP1;
                         }
@@ -223,9 +223,9 @@ strcpy(file,filename);
         status = dbNextRecordType(pdbentry);
    }
    printf("End of all Records! ");
-		i=0;
-		strcpy(S_type," ");
-		strcpy(S_value[0]," ");
+                i=0;
+                strcpy(S_type," ");
+                strcpy(S_value[0]," ");
 
 STEP1:
     dbFinishEntry(pdbentry);
@@ -242,13 +242,13 @@ num = i;
 
 
 
-/* input:	database name
-		record type 
+/* input:       database name
+                record type 
    output:
-		S_field[] - array of fieldnames
-		D_type[]  - array of fieldtype
+                S_field[] - array of fieldnames
+                D_type[]  - array of fieldtype
    return:
-		number of fields found
+                number of fields found
 */
 int ca_dbGetRecFieldNames(filename,S_type,S_field,D_type)
 char *filename, *S_type;
@@ -263,25 +263,25 @@ int D_type[];
 char file[80];
 strcpy(file,filename);
 
-	pdbbase = (DBBASE *)ca_dbOpen(file);
-	if (pdbbase==NULL ) {
+        pdbbase = (DBBASE *)ca_dbOpen(file);
+        if (pdbbase==NULL ) {
                 printf("ca_dbOpen: '%s' failed!\n",file);
                 return(0);
                 }
 
     dbInitEntry(pdbbase,pdbentry);
 
-	status = dbFindRecordType(pdbentry,S_type);
-	while(!status) {
-	i=0;
+        status = dbFindRecordType(pdbentry,S_type);
+        while(!status) {
+        i=0;
            status = dbFirstField(pdbentry,TRUE);
            if (status) printf("  No Fields\n");
            while (!status) {
-			strcpy(S_field[i],dbGetFieldName(pdbentry));
-			D_type[i] = dbGetFieldType(pdbentry);
+                        strcpy(S_field[i],dbGetFieldName(pdbentry));
+                        D_type[i] = dbGetFieldType(pdbentry);
                 status = dbNextField(pdbentry,TRUE);
-		i++;
-		}
+                i++;
+                }
                status=TRUE;
            }
 
@@ -289,7 +289,7 @@ strcpy(file,filename);
 
         dbFreeBase(pdbbase);
 
-	num = i;
+        num = i;
 
     return(num);
 }
@@ -297,16 +297,16 @@ strcpy(file,filename);
 
 
 
-/* input:	pdbbase - database pointer	
-		S_type  - record type 
+/* input:       pdbbase - database pointer      
+                S_type  - record type 
    output:
-		S_field[] - array of fieldnames
-		D_type[] - array of fieldtype
+                S_field[] - array of fieldnames
+                D_type[] - array of fieldtype
    return:
-		number of fields found
+                number of fields found
 */
 int ca_dbGetRecFieldNames2(pdbbase,S_type,S_field,D_type)
-DBBASE 	*pdbbase;
+DBBASE  *pdbbase;
 char *S_type;
 char S_field[][5];
 int D_type[];
@@ -318,37 +318,37 @@ DBENTRY *pdbentry=&dbentry;
 
     dbInitEntry(pdbbase,pdbentry);
 
-	status = dbFindRecordType(pdbentry,S_type);
-	while(!status) {
-	i=0;
+        status = dbFindRecordType(pdbentry,S_type);
+        while(!status) {
+        i=0;
            status = dbFirstField(pdbentry,TRUE);
            if (status) printf("  No Fields\n");
            while (!status) {
-			strcpy(S_field[i],dbGetFieldName(pdbentry));
-			D_type[i] = dbGetFieldType(pdbentry);
+                        strcpy(S_field[i],dbGetFieldName(pdbentry));
+                        D_type[i] = dbGetFieldType(pdbentry);
                 status = dbNextField(pdbentry,TRUE);
-		i++;
-		}
+                i++;
+                }
                status=TRUE;
            }
 
     dbFinishEntry(pdbentry);
 
-	num = i;
+        num = i;
 
     return(num);
 }
 
 
-/* input:	database pointer  
-		record name
+/* input:       database pointer  
+                record name
    output:
-		S_type    - record_type 
-		S_field[] - array of fieldnames
-		S_value[] - array of fieldvalues
-		D_type[] - array of fieldtype
+                S_type    - record_type 
+                S_field[] - array of fieldnames
+                S_value[] - array of fieldvalues
+                D_type[] - array of fieldtype
    return:
-		number of fields found
+                number of fields found
 */
 int ca_dbGetRecFields2(pdbbase,name,S_type,S_field,S_value,D_type)
 DBBASE      *pdbbase;
@@ -369,24 +369,24 @@ char *type,*value;
         status = dbFirstRecordType(pdbentry);
     if(status) {printf("No record description\n"); return status;}
     while(!status) {
-	type = dbGetRecordTypeName(pdbentry);
+        type = dbGetRecordTypeName(pdbentry);
         status = dbFirstRecord(pdbentry);
         if (!status) temp=dbGetRecordName(pdbentry);
         while (!status) {
                 if (strcmp(name, temp) == 0) {
-	i=0;
-	   strcpy(S_type,type);
+        i=0;
+           strcpy(S_type,type);
            status = dbFirstField(pdbentry,TRUE);
            if (status) printf("  No Fields\n");
            while (!status) {
                 temp=dbGetFieldName(pdbentry);
-		D_type[i]=dbGetFieldType(pdbentry);
+                D_type[i]=dbGetFieldType(pdbentry);
                         value=dbGetString(pdbentry);
-			strcpy(S_field[i],temp);
-			strcpy(S_value[i],value);
+                        strcpy(S_field[i],temp);
+                        strcpy(S_value[i],value);
                 status = dbNextField(pdbentry,TRUE);
-		i++;
-		}
+                i++;
+                }
                status=TRUE;
                goto STEP1;
                         }
@@ -396,9 +396,9 @@ char *type,*value;
         status = dbNextRecordType(pdbentry);
    }
    printf("End of all Records! ");
-		i=0;
-		strcpy(S_type," ");
-		strcpy(S_value[0]," ");
+                i=0;
+                strcpy(S_type," ");
+                strcpy(S_value[0]," ");
 
 STEP1:
     dbFinishEntry(pdbentry);

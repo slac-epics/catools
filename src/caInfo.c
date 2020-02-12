@@ -23,7 +23,7 @@ int argc;
 char **argv;
 {
 char *st,name[NAME_LENGTH];
-	st = name;
+        st = name;
 
 printf("\nEnter PV_name or quit\n\n");
 
@@ -52,20 +52,20 @@ int status;
 
         if (pchandata->state  != cs_conn ) return;
         if (pchandata->type > DBR_STRING) {
-	status = ca_get(DBR_CTRL_DOUBLE,pchandata->chid,&dbr);
+        status = ca_get(DBR_CTRL_DOUBLE,pchandata->chid,&dbr);
         ca_pend_io(1.);
-	ca_check_return_code(status);
-	if (status == ECA_NORMAL) {
-	printf("%-30s ",name);
-	printf("%10.2f ",dbr.value);
-	printf("%-9s ",alarmStatusString[dbr.status]);
-	printf("%-12s",alarmSeverityString[dbr.severity]);
-	printf("%10.2f ",dbr.upper_disp_limit);
-	printf("%10.2f ",dbr.lower_disp_limit);
-	printf("%s\n ",dbr.units);
-		}
-	}
-	else printf("*** wrong type of record entered ***\n");
+        ca_check_return_code(status);
+        if (status == ECA_NORMAL) {
+        printf("%-30s ",name);
+        printf("%10.2f ",dbr.value);
+        printf("%-9s ",alarmStatusString[dbr.status]);
+        printf("%-12s",alarmSeverityString[dbr.severity]);
+        printf("%10.2f ",dbr.upper_disp_limit);
+        printf("%10.2f ",dbr.lower_disp_limit);
+        printf("%s\n ",dbr.units);
+                }
+        }
+        else printf("*** wrong type of record entered ***\n");
 
 }
 

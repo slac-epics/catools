@@ -26,13 +26,13 @@ chandata *pchandata;
 
 typedef struct item item;
 struct item {
-	item *next;
-	chandata *pchandata;
-	};
+        item *next;
+        chandata *pchandata;
+        };
 
 item  *table[TABSIZE];
-int num; 	/* no of occupied slots in table */
-int succlen;	/* total length of all successful searches */
+int num;        /* no of occupied slots in table */
+int succlen;    /* total length of all successful searches */
 
 /*
 static unsigned short hash5();
@@ -129,13 +129,13 @@ return h;
 static chandata *AllocChandata()
 {
 chandata *cdata;
-	cdata = (chandata *) calloc(1,sizeof(chandata));
-	if (cdata == NULL) {
-		 printf("AllocChandata failed on pchandata\n");
-		 exit(-2);
-		}
-	cdata->type = TYPENOTCONN;
-	return (cdata);
+        cdata = (chandata *) calloc(1,sizeof(chandata));
+        if (cdata == NULL) {
+                 printf("AllocChandata failed on pchandata\n");
+                 exit(-2);
+                }
+        cdata->type = TYPENOTCONN;
+        return (cdata);
 }
 
 /****************************************************************
@@ -144,33 +144,33 @@ chandata *cdata;
 static int pv_search(s)
 char *s;
 {
-	int h, len = 1;
-	item **try;
-	
-	h = hash7(s); 
-	if (h < 0) {
-	printf("Error: h can not be negative\n");
-	exit(0);
-	}
-	try = &table[h];
-	while (*try) {
-	  pchandata = (*try)->pchandata;
-	  if (strcmp( ca_name(pchandata->chid),s) == 0) return FOUND;
-	  	len++;
-		try = &((*try)->next);
-		}
+        int h, len = 1;
+        item **try;
+        
+        h = hash7(s); 
+        if (h < 0) {
+        printf("Error: h can not be negative\n");
+        exit(0);
+        }
+        try = &table[h];
+        while (*try) {
+          pchandata = (*try)->pchandata;
+          if (strcmp( ca_name(pchandata->chid),s) == 0) return FOUND;
+                len++;
+                try = &((*try)->next);
+                }
 
-	*try = (item *) calloc(1,sizeof(item));
-	if (*try == NULL) {
-		 printf("calloc failed on *try\n");
-		 exit(-2);
-		}
-	pchandata = (chandata *) AllocChandata();
-	(*try)->pchandata = pchandata;
-/*	strcpy(ca_name(pchandata->chid),s); */
-	succlen += len;
-	num++;
-	return NOTFOUND;
+        *try = (item *) calloc(1,sizeof(item));
+        if (*try == NULL) {
+                 printf("calloc failed on *try\n");
+                 exit(-2);
+                }
+        pchandata = (chandata *) AllocChandata();
+        (*try)->pchandata = pchandata;
+/*      strcpy(ca_name(pchandata->chid),s); */
+        succlen += len;
+        num++;
+        return NOTFOUND;
 
 }
 
@@ -182,13 +182,13 @@ char *name;
 {
 int status;
   switch (pv_search(name)) {
-	case FOUND: /*		printf("Already exists!\n");  */
-		break;
-	case NOTFOUND:
-		status = ca_search(name,&(pchandata->chid));
-		if (status != ECA_NORMAL) ca_check_return_code(status);
-		break;
-		}
+        case FOUND: /*          printf("Already exists!\n");  */
+                break;
+        case NOTFOUND:
+                status = ca_search(name,&(pchandata->chid));
+                if (status != ECA_NORMAL) ca_check_return_code(status);
+                break;
+                }
 return(pchandata);
 }
 
@@ -201,27 +201,27 @@ int i,status = ECA_NORMAL;
 item *temp,*try;
 
         for (i=0;i<TABSIZE;i++) {
-	temp = table[i];
+        temp = table[i];
         while (temp) {
                 pchandata = temp->pchandata;
-		if (pchandata->state != cs_closed) {
+                if (pchandata->state != cs_closed) {
                 if (pchandata->type != TYPENOTCONN && pchandata->evid) {
-		status = ca_clear_event(pchandata->evid);
+                status = ca_clear_event(pchandata->evid);
                 if (status != ECA_NORMAL) 
                 printf("ca_clear_hash_table: ca_clear_event failed on :[%s]\n", ca_name(pchandata->chid));
-			}
+                        }
                 if (pchandata->type != TYPENOTCONN && pchandata->chid) {
                 status = ca_clear_channel(pchandata->chid);
                 if (status != ECA_NORMAL) 
                 printf("ca_clear_hash_table: ca_clear_channel failed on :[%s]\n",ca_name(pchandata->chid));
-			}	
+                        }       
                 }
-		free(pchandata);
+                free(pchandata);
                 try= temp->next;
-		free(temp);
-		temp = try;
-	    }
-	table[i] = NULL;
+                free(temp);
+                temp = try;
+            }
+        table[i] = NULL;
 
         }
 ca_pend_io(3.0);
@@ -239,16 +239,16 @@ item *temp,*try;
 chandata *pchandata;
 
         for (i=0;i<TABSIZE;i++) {
-	temp = table[i];
+        temp = table[i];
         while (temp) {
                 pchandata = temp->pchandata;
-		array[no] = (char *)ca_name(pchandata->chid);
+                array[no] = (char *)ca_name(pchandata->chid);
                 try= temp->next;
-		temp = try;
-		no++;
-	    }
+                temp = try;
+                no++;
+            }
         }
 
-	return(no);
+        return(no);
 }
 

@@ -31,40 +31,40 @@ void *vals;
 int status,command_error=0,num;
 chandata *pchan;
 
-	num = CA_FAIL;
-	ca_pend_event(0.00001);
+        num = CA_FAIL;
+        ca_pend_event(0.00001);
 
-	ca_find_dev(pvName,pchandata);
-	while(strcmp(pvName,ca_name(pchandata->chid)) != 0 ) {
-		ca_find_dev(pvName,pchandata);
-	}
-	pchan = pchandata;
+        ca_find_dev(pvName,pchandata);
+        while(strcmp(pvName,ca_name(pchandata->chid)) != 0 ) {
+                ca_find_dev(pvName,pchandata);
+        }
+        pchan = pchandata;
 
         pchan->type = ca_field_type(pchan->chid);
         if (pchan->state != cs_conn) 
-		command_error = CA_FAIL;
+                command_error = CA_FAIL;
 
-	else  if (pchan->evid ) {
-		status = ca_get_native_wave_form(pvName,count,vals);
+        else  if (pchan->evid ) {
+                status = ca_get_native_wave_form(pvName,count,vals);
 
-	if (CA.devprflag > 0) { 
-		fprintf(stderr,"caMonitorWF get: name=%s, value=%f, status=%d, event=%d\n",
-		ca_name(pchan->chid),pchan->value,
-		pchan->status,pchan->event);
-		fprintf(stderr,"\n");
-		}
-	if (pchan->event > 0) {
-		num = count;
-		pchan->event = 0;  /* reset after read*/
-		}
-	} else {
+        if (CA.devprflag > 0) { 
+                fprintf(stderr,"caMonitorWF get: name=%s, value=%f, status=%d, event=%d\n",
+                ca_name(pchan->chid),pchan->value,
+                pchan->status,pchan->event);
+                fprintf(stderr,"\n");
+                }
+        if (pchan->event > 0) {
+                num = count;
+                pchan->event = 0;  /* reset after read*/
+                }
+        } else {
                 if (CA.devprflag >= 0)
-		 fprintf(stderr,"Error: %s is not monitored yet.\n",
-			ca_name(pchan->chid)); 
-		}
+                 fprintf(stderr,"Error: %s is not monitored yet.\n",
+                        ca_name(pchan->chid)); 
+                }
 
         ca_check_command_error(command_error);
 
-	return (num);
+        return (num);
 }
 
