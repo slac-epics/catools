@@ -1,14 +1,3 @@
-This directory has been modified to support the W95 build.
-
-Because the name conflict on PC W95, there is no difference
-between the upper case and lower case, e.g., caGet and caget 
-are same on W95, therefore the file name has been renamed
-and reorganized in this directory. 
-
-The caget.c and caput.c have been rewritten and moved to the 
-epics/extensions/src/EzcaScan directory. The SDDS tools cavput.c,
-cavget.c, cawait.c, pvMultList.c, pvMultList.h have been
-moved to epics/extensions/src/oagca directory.
 
 The caGet.c and caPut.c for array CA get or put on multiple 
 PVs has been renamed to caGet1.c and caPut1.c in this directory. 
@@ -17,8 +6,4 @@ The caGet1 get all the values in DBR_STRING format and
 caPut1 put the values in DBR_STRING format (as created
 by caGet1 output). Note, the caGet1 and caPut1 does not support
 waveform records.
-
-They all use the share library now. Therefore in order to run
-these tools the directory /usr/local/epics/extensions/lib/solaris 
-must be included in the LD_LIBRARY_PATH.
 

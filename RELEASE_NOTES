@@ -1,15 +1,28 @@
-Mon Sep  9 10:14:39 CDT 2002
-  Removed calls to ca_task_exit because it should not be 
-  called unless ca_clear_channel is called for all channels first.	
+R1.0.0	2020-02-12 Bruce Hill
+	Fix build warnings.
+	Ran indent on each C file to fix arbitrary and confusing indentation.
+	Expand tabs by 8
+	Standalone build support.
 
-Tue Sep 10 11:06:22 CDT 2002
-  Created 20020910 tar file.
+2014-08-18 mshankar
+	Fixed patch locally where we were going past the end of the buffer
 
-Fri May 25 14:03:10 CDT 2007
-  Converted to R3.14. Makefiles
+2012-09-14 mshankar
+	import of ca_20120830 from Janet Anderson
 
 Tue Aug 14 16:37:30 CDT 2012
   Converted from tsDefs API to epicsTime API
   Changed base library dbStaticHost name to dbCore 
   for builds with base R3.15.0.1 and later.
   Changed void main() to int main().
+
+Fri May 25 14:03:10 CDT 2007
+  Converted to R3.14. Makefiles
+
+Tue Sep 10 11:06:22 CDT 2002
+  Created 20020910 tar file.
+
+Mon Sep  9 10:14:39 CDT 2002
+  Removed calls to ca_task_exit because it should not be 
+  called unless ca_clear_channel is called for all channels first.	
+
