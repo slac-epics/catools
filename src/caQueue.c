@@ -307,7 +307,7 @@ ca_monitor_queue_add(noName, pvName, maxvalues, mode)
      char **pvName;
      int *maxvalues;
 {
-int i=0,status,command_error=0;
+int i=0,status=0,command_error=0;
 chandata *list,*snode,*pchan;
 
  command_error = ca_pvlist_search(noName,pvName,&list);

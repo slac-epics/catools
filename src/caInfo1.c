@@ -93,7 +93,7 @@ main(argc, argv)
 	printf(" *** caInfo completed normally ***\n");
 
 	caInfo1_exit(0);
-
+	return 0;
 }
 
 

@@ -1834,7 +1834,7 @@ ca_get_wave_form(name, ret)
      char *name;
      double *ret;               /* return real array */
 {
-int i,count=0,type,status;
+int i,count=0,type,status = 0;
 unsigned size1,size2,size3;
 chandata *pchan;
 
@@ -1931,6 +1931,7 @@ chandata *pchan;
         }
     }
 
+	return status;
 }
 
 /******************************************

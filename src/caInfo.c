@@ -29,9 +29,9 @@ main(argc, argv)
     printf("\nEnter PV_name or quit\n\n");
 
 READPV:	printf("PV? : "); 
-	st = gets(name);
+	st = fgets(name, NAME_LENGTH, stdin );
 	if (st == NULL) exit(1);
-	if (*st != EOF && *st != NULL) {
+	if (*st != EOF && *st != 0) {
 	if(*st == 'q' || *st == 'Q') {
 			 exit(0); 
 			}

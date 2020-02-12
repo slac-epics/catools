@@ -184,14 +184,12 @@ ca_dbGetRecField(filename, name, field, S_type, S_value)
                 S_type    - record_type 
                 S_field[] - array of fieldnames
                 S_value[] - array of fieldvalues
-                D_type[]  - array of fieldtypes
    return:
                 number of fields found
 */
-int ca_dbGetRecFields(filename,name,S_type,S_field,S_value,D_type)
+int ca_dbGetRecFields(filename,name,S_type,S_field,S_value)
     char *filename, *name;
     char S_type[],S_field[][5],S_value[][MAX_STRING_SIZE];
-    int D_type[];
 {
     DBBASE *pdbbase;
     DBENTRY dbentry;
@@ -235,7 +233,6 @@ int ca_dbGetRecFields(filename,name,S_type,S_field,S_value,D_type)
                 while (!status)
                 {
                     temp=dbGetFieldName(pdbentry);
-                    D_type[i] = dbGetFieldType(pdbentry);
                     value=dbGetString(pdbentry);
                     strcpy(S_field[i],temp);
                     strcpy(S_value[i],value);
@@ -267,14 +264,12 @@ int ca_dbGetRecFields(filename,name,S_type,S_field,S_value,D_type)
                 record type 
    output:
                 S_field[] - array of fieldnames
-                D_type[]  - array of fieldtype
    return:
                 number of fields found
 */
-int ca_dbGetRecFieldNames(filename,S_type,S_field,D_type)
+int ca_dbGetRecFieldNames(filename,S_type,S_field)
     char *filename, *S_type;
     char S_field[][5];
-    int D_type[];
 {
     DBBASE *pdbbase;
     DBENTRY dbentry;
@@ -303,7 +298,6 @@ int ca_dbGetRecFieldNames(filename,S_type,S_field,D_type)
         while (!status)
         {
             strcpy(S_field[i],dbGetFieldName(pdbentry));
-            D_type[i] = dbGetFieldType(pdbentry);
             status = dbNextField(pdbentry,TRUE);
             i++;
         }
@@ -322,15 +316,13 @@ int ca_dbGetRecFieldNames(filename,S_type,S_field,D_type)
                 S_type  - record type 
    output:
                 S_field[] - array of fieldnames
-                D_type[] - array of fieldtype
    return:
                 number of fields found
 */
-int ca_dbGetRecFieldNames2(pdbbase,S_type,S_field,D_type)
+int ca_dbGetRecFieldNames2(pdbbase,S_type,S_field)
     DBBASE  *pdbbase;
     char *S_type;
     char S_field[][5];
-    int D_type[];
 {
     long status;
     int i = 0, num = 0;
@@ -349,7 +341,6 @@ int ca_dbGetRecFieldNames2(pdbbase,S_type,S_field,D_type)
         while (!status)
         {
             strcpy(S_field[i],dbGetFieldName(pdbentry));
-            D_type[i] = dbGetFieldType(pdbentry);
             status = dbNextField(pdbentry,TRUE);
             i++;
         }
@@ -369,15 +360,13 @@ int ca_dbGetRecFieldNames2(pdbbase,S_type,S_field,D_type)
                 S_type    - record_type 
                 S_field[] - array of fieldnames
                 S_value[] - array of fieldvalues
-                D_type[] - array of fieldtype
    return:
                 number of fields found
 */
-int ca_dbGetRecFields2(pdbbase,name,S_type,S_field,S_value,D_type)
+int ca_dbGetRecFields2(pdbbase,name,S_type,S_field,S_value)
     DBBASE      *pdbbase;
     char *name;
     char S_type[],S_field[][5],S_value[][MAX_STRING_SIZE];
-    int D_type[];
 {
     DBENTRY dbentry;
     DBENTRY *pdbentry = &dbentry;
@@ -413,7 +402,6 @@ int ca_dbGetRecFields2(pdbbase,name,S_type,S_field,S_value,D_type)
                 while (!status)
                 {
                     temp=dbGetFieldName(pdbentry);
-                    D_type[i]=dbGetFieldType(pdbentry);
                     value=dbGetString(pdbentry);
                     strcpy(S_field[i],temp);
                     strcpy(S_value[i],value);

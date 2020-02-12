@@ -19,7 +19,9 @@ HOST_OPT=
 INC = chandata.h
 
 #USR_CFLAGS += -I$(EPICS_EXTENSIONS_INCLUDE)
-USR_CFLAGS += -DACCESS_SECURITY -D_NO_PROTO -DUSE_EZCA
+USR_CFLAGS += -DACCESS_SECURITY -D_NO_PROTO
+#USR_CFLAGS += -DUSE_EZCA
+USR_CFLAGS += -DUSE_TYPED_RSET -DUSE_TYPED_DSET -DUSE_TYPED_DRVET
 
 LIBSRCS := \
 	hash3.c cafunc.c caevent.c caQueue.c caScan.c caWF.c \
@@ -34,10 +36,10 @@ PROD_LIBS = Lca dbCore ca Com
 else
 Lca_LIBS = dbStaticHost ca Com
 PROD_LIBS = Lca dbStaticHost ca Com
+dbStaticHost_DIR = $(EPICS_BASE_LIB)
 endif
 
-dbStaticHost_DIR = $(EPICS_BASE_LIB)
-ezca_DIR = $(INSTALL_LIB)
+#ezca_DIR = $(INSTALL_LIB)
 Lca_DIR = . 
 ca_DIR = $(EPICS_BASE_LIB)
 Com_DIR = $(EPICS_BASE_LIB)

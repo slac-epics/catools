@@ -107,7 +107,7 @@ ca_monitor_value_change_event_trigger_scan(struct event_handler_args args)
 int
 ca_monitor_add_event_trigger_array_scan(chandata * pchandata, int npts, int nonames, char **pvnames)
 {
-int i=0,status,command_error=0;
+int i=0,status=0,command_error=0;
 
     pchandata->type = ca_field_type(pchandata->chid);
     if (pchandata->state != cs_conn)

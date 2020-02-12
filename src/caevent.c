@@ -17,6 +17,7 @@
 /* #include<sys/timeb.h>  not ansi C for solaris */
 #define epicsExportSharedSymbols
 #include <shareLib.h>
+#include "fdmgr.h"
 
 #include "chandata.h"
 
@@ -29,13 +30,12 @@ static struct timeval timeout = { 0, USEC_TIME_OUT };
 int CONN = 1;
 extern chandata *pchandata;
 
-extern int fdmgr_add_fd();
-extern int fdmgr_clear_fd();
-extern int fdmgr_init();
-extern int fdmgr_add_timeout();
-extern int fdmgr_clear_timeout();
-
 extern double atof();
+
+void caTimeoutCB( void * arg )
+{
+	(void) ca_flush_io();
+}
 
 /******************************************************
   time stamp in seconds get from IOC 
@@ -841,7 +841,7 @@ void caAddTimeout()
 {
 	fprintf(stderr,"caAddTimeout\n");
 	event_timeout_id = fdmgr_add_timeout(pfdctx, &timeout,
-		ca_flush_io(),NULL);
+										caTimeoutCB, NULL );
 }
 
 void
@@ -850,7 +850,7 @@ caClearTimeout()
 	fprintf(stderr,"caClearTimeout\n");
 	if (event_timeout_id) {
 		fdmgr_clear_timeout(pfdctx, event_timeout_id);
-	event_timeout_id = NULL;
+		event_timeout_id = 0;
 	}
 }
 

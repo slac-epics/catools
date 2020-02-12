@@ -76,6 +76,7 @@ main(argc, argv)
     printf(" *** caPut completed normally ***\n");
 
         caPut_exit(0);
+	return 0;
 }
 
 void
