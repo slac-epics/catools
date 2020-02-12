@@ -9,7 +9,7 @@
 #
 # Makefile,v 1.16 2012/08/15 19:56:48 jba Exp
 #
-TOP = ../..
+TOP = ..
 include $(TOP)/configure/CONFIG
 
 CMPLR = STRICT
@@ -29,11 +29,11 @@ LIBRARY_HOST := Lca
 
 
 ifdef BASE_3_15
-Lca_LIBS = ezca dbCore ca Com
-PROD_LIBS = Lca ezca dbCore ca Com
+Lca_LIBS = dbCore ca Com
+PROD_LIBS = Lca dbCore ca Com
 else
-Lca_LIBS = ezca dbStaticHost ca Com
-PROD_LIBS = Lca ezca dbStaticHost ca Com
+Lca_LIBS = dbStaticHost ca Com
+PROD_LIBS = Lca dbStaticHost ca Com
 endif
 
 dbStaticHost_DIR = $(EPICS_BASE_LIB)
